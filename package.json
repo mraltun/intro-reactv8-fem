@@ -1,0 +1,23 @@
+{
+  "name": "intro-reactv8-fem",
+  "version": "1.0.0",
+  "description": "Complete Intro to React v8 - Frontend Masters",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mraltun/intro-reactv8-fem.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mraltun/intro-reactv8-fem/issues"
+  },
+  "homepage": "https://github.com/mraltun/intro-reactv8-fem#readme",
+  "devDependencies": {
+    "prettier": "^2.8.2"
+  }
+}
