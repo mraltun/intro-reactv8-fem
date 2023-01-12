@@ -22,15 +22,18 @@
     "url": "https://github.com/mraltun/intro-reactv8-fem/issues"
   },
   "homepage": "https://github.com/mraltun/intro-reactv8-fem#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
     "@vitejs/plugin-react": "^3.0.1",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.4",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.0",
     "prettier": "^2.8.2",
     "vite": "^4.0.4"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
   }
 }

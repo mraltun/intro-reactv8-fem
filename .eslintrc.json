@@ -1,6 +1,23 @@
+// The import plugin helps ESLint catch commons bugs around imports, exports, and modules in general
+// jsx-a11y catches many bugs around accessibility that can accidentally arise using React, like not having an alt attribute on an img tag.
+// react is mostly common React bugs like not calling one of your props children.
+// eslint-plugin-react now requires you to inform of it what version of React you're using. We're telling it here to look at the package.json to figure it out.
+// "react/react-in-jsx-scope": 0 is new since you used to have to import React everywhere but now with the recent revision of React you don't need to.
+// Prop types allow you to add types to a component's props at runtime. In general if you're interested in doing that just use TypeScript.
+// We need to set the import plugin to look for both js and jsx extensions or else it won't resolve imports for us.
 {
-  "extends": ["eslint:recommended", "prettier"],
-  "plugins": [],
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0
+  },
+  "plugins": ["react", "import", "jsx-a11y"],
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module",
@@ -12,5 +29,15 @@
     "es6": true,
     "browser": true,
     "node": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx"]
+      }
+    }
   }
 }
