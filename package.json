@@ -4,6 +4,9 @@
   "description": "Complete Intro to React v8 - Frontend Masters",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
@@ -25,5 +28,9 @@
     "eslint-config-prettier": "^8.6.0",
     "prettier": "^2.8.2",
     "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
