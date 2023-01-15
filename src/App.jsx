@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Details from "./Details";
 import SearchParams from "./SearchParams";
+import Details from "./Details";
 
 const App = () => {
   return (
