@@ -24,7 +24,8 @@
   "homepage": "https://github.com/mraltun/intro-reactv8-fem#readme",
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^3.0.1",
