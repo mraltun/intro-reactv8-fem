@@ -1,4 +1,5 @@
 async function fetchBreedList({ queryKey }) {
+  // ["breeds", animal] from useBreedList
   const animal = queryKey[1];
 
   if (!animal) return [];

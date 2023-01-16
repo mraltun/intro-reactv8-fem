@@ -1,5 +1,5 @@
 const fetchPet = async ({ queryKey }) => {
-  // "id" from useQuery inside Details
+  // ["details", id] from Details
   const id = queryKey[1];
   const apiRes = await fetch(`http://pets-v2.dev-apis.com/pets?id=${id}`);
 
