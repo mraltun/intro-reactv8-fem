@@ -1,10 +1,18 @@
+// Class components have lifecycle methods. These for the most part are what useEffect does for function components. They're for doing things like making API calls, starting and ending transitions/animations, debugging, and other things like that. We don't need to use any here, but let's look at a few of the most common ones
+// constructor isn't necessarily a React lifecylce method but we use it like one. It's where you do things that need to happen before the first render. Generally it's where you set the initial state.
+// componentDidMount is a function that's called after the first rendering is completed. This pretty similar to a useEffect call that only calls the first time. This is typically where you want to do data fetching. It doesn't have to be async; we just made it async here to make the data fetching easy.
+// componentDidUpdate is called after your state is updated. If you're doing something like Typeahead where you're making reactive requests to an API based on user input, this would be an ideal place to do it.
+// componentWillUnmount is typically a place for cleanup. Let's say you had to write a component to integrate with jQuery (I've had to write this, multiple times), this is where you'd clean up those references (like unattaching from DOM nodes and deleting them) so you don't leak memory. This method is invoked whenever a component is about to be destroyed.
+// This class doesn't cover all the lifecycle methods but you can imagine having different timings for different capabilities of a component can be useful. For example, if you have a set of props that come in and you need to filter those props before you display them, you can use getDerivedStateFromProps. Or if you need to react to your component being removed from the DOM (like if you're subscribing to an API and you need to dispose of the subscription) you can use componentWillUnmount.
 import { Component } from "react";
 
 class Carousel extends Component {
+  // Class properties, no need for constructor.
   state = {
     active: 0,
   };
 
+  // If you don't pass any props to this component default will be this
   static defaultProps = {
     images: ["http://pets-images.dev-apis.com/pets/none.jpg"],
   };
@@ -16,8 +24,11 @@ class Carousel extends Component {
   };
 
   render() {
+    // The mutable state of the component (like useState). You'll use this.setState to mutate it (don't modify it directly.)
     const { active } = this.state;
+    // Comes from the parent component, similar to parameter given to the render functions that we pull props out of.
     const { images } = this.props;
+
     return (
       <div className="carousel">
         <img src={images[active]} alt="animal" />
