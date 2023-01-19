@@ -12,13 +12,15 @@ class Carousel extends Component {
     active: 0,
   };
 
-  // If you don't pass any props to this component default will be this
+  // In case you don't pass props to this component. This allows us to always assume that the photos prop is going to be an array instead of having to do a bunch of "if this thing exists" logic.
   static defaultProps = {
     images: ["http://pets-images.dev-apis.com/pets/none.jpg"],
   };
 
+  // It's arrow function because we need the "this" in handleIndexClick to be the correct "this". An arrow function assures that because it will be the scope of where it was defined. This is common with how to deal with event handlers with class components.
   handleIndexClick = (event) => {
     this.setState({
+      // The data attribute comes back as a string. We want it to be a number, hence the +.
       active: +event.target.dataset.index,
     });
   };
