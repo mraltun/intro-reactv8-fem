@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ErrorBoundary from "./ErrorBoundary";
+import Modal from "./Modal";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
 
 const Details = () => {
+  const [showModal, setShowModal] = useState(false);
   const { id } = useParams();
   // When a query needs more information to describe the data, we can use an array with a string and any objects to describe (we use details and id number array as query key). fetchPet is query function. It will run if the data haven't cached yet
   const results = useQuery(["details", id], fetchPet);
@@ -26,8 +29,20 @@ const Details = () => {
       <div>
         <h1>{pet.name}</h1>
         <h2>{`${pet.animal} — ${pet.breed} — ${pet.city}, ${pet.state}`}</h2>
-        <button>Adopt {pet.name}</button>
+        <button onClick={() => setShowModal(true)}>Adopt {pet.name}</button>
         <p>{pet.description}</p>
+        {/* Notice that despite we're rendering a whole different part of the DOM we're still referencing the state in Details.jsx. This is the magic of Portals. You can use state but render in different parts of the DOM. Imagine a sidebar with contextual navigation. Or a contextual footer. It opens up a lot of cool possibilities. React Router has some cool features built into that take advantage of this as well. */}
+        {showModal ? (
+          <Modal>
+            <div>
+              <h1>Would you like to adopt {pet.name}?</h1>
+              <div className="buttons">
+                <button>Yes</button>
+                <button onClick={() => setShowModal(false)}>No</button>
+              </div>
+            </div>
+          </Modal>
+        ) : null}
       </div>
     </div>
   );
