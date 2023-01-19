@@ -11,7 +11,7 @@ class ErrorBoundary extends Component {
     return { hasError: true };
   }
 
-  //
+  // This (and the static func above) is why we use class components because there is no equivalent in functional components.
   componentDidCatch(error, info) {
     console.error("ErrorBoundary caught an error", error, info);
   }
