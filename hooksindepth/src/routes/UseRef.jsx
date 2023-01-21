@@ -1,7 +1,9 @@
-import { memo, useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { memo, useEffect, useRef } from "react";
+import * as THREE from "three";
 
+// React.memo tells React "as long as the parameters being passed into this component don't change, do not re-render it ever. You might be tempted to do this on every component but believe me, don't. Things will no re-render when you expect them to and you will forget you memoized them. Only use memo where you need to.
 const UseRefMemo = memo(function UseRef() {
+  // We need the exact same DOM node through re-renders. We use ref for that
   const renderTarget = useRef();
 
   useEffect(() => {
