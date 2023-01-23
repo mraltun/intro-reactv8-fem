@@ -1,3 +1,20 @@
+/* The base layer is for base level styles for your app: what font you use by default, your general h1 default styles, your CSS reset, etc */
 @tailwind base;
+/* The component layer is for what components you are building, what you'd typically use a CSS class for */
 @tailwind components;
+/* The utilities layer is for things like enabled, disabled, focused, etc. They're modifier classes. */
 @tailwind utilities;
+
+/* It belongs to components "bucket" */
+@layer components {
+  /* We used @apply so we could use Tailwind classes inside of our CSS class. We can write CSS here too */
+  .search-input {
+    @apply w-60 mb-5 block;
+  }
+}
+
+@layer utilities {
+  .greyed-out-disabled {
+    @apply disabled:opacity-50;
+  }
+}
