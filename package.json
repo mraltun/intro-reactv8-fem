@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "Complete Intro to React v8 - Frontend Masters",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "buildvite": "vite build",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
-    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
+    "build:client": "vite build --outDir ../dist/client",
+    "build:server": "vite build --outDir ../dist/server --ssr ServerApp.jsx",
+    "build": "npm run build:client && npm run build:server",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
