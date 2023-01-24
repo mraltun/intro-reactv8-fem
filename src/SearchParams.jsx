@@ -1,4 +1,5 @@
-import { useState, useContext } from "react";
+// The idea behind transitions is some of your renders are low priority: if they need to be interrupted they can be. What you don't want is to interrupt user intent: if a user clicks on a thing then you want drop everything to make sure that click felt responsive. useDeferredValue going to accomplish exactly this.
+import { useContext, useDeferredValue, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import AdoptedPetContext from "./AdoptedPetContext";
 import Results from "./Results";
@@ -32,6 +33,13 @@ const SearchParams = () => {
 
   const results = useQuery(["search", requestParams], fetchSearch);
   const pets = results?.data?.pets ?? [];
+  // useDeferredValue takes in a value and gives you a cached version of it: that cached version may be current or it may a stale one as it works through a re-render. Evenutally it will be the current one
+  const deferredPets = useDeferredValue(pets);
+  // We then need to use that cached version. So we use useMemo to make a version of the component that can be used and won't change until the deferredPets value changes (otherwise it'll just re-render every time anyway)
+  const renderedPets = useMemo(
+    () => <Results pets={deferredPets} />,
+    [deferredPets]
+  );
 
   return (
     <div className="my-0 mx-auto w-11/12">
@@ -104,7 +112,8 @@ const SearchParams = () => {
           Submit
         </button>
       </form>
-      <Results pets={pets} />
+      {/* <Results pets={pets} /> */}
+      {renderedPets}
     </div>
   );
 };
