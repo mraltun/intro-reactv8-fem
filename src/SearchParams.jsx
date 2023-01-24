@@ -1,5 +1,12 @@
 // The idea behind transitions is some of your renders are low priority: if they need to be interrupted they can be. What you don't want is to interrupt user intent: if a user clicks on a thing then you want drop everything to make sure that click felt responsive. useDeferredValue going to accomplish exactly this.
-import { useContext, useDeferredValue, useMemo, useState } from "react";
+// A good way to keep useTransition straight versus useDeferredValue and when to use either. For useTransition, you are telling React "hey, I have a new thing to give you but it's low priority". It's proactive. You are starting that process explicitly with the startTransition function. useDeferredValue is more reactive. It's saying to React "hey, when you get a new value here, it's low priority so you can take your time."
+import {
+  useContext,
+  useDeferredValue,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { useQuery } from "@tanstack/react-query";
 import AdoptedPetContext from "./AdoptedPetContext";
 import Results from "./Results";
@@ -17,6 +24,7 @@ const SearchParams = () => {
   const [animal, setAnimal] = useState("");
   const [breeds] = useBreedList(animal);
   const [adoptedPet] = useContext(AdoptedPetContext);
+  const [isPending, startTransition] = useTransition();
 
   // useEffect(() => {
   //   requestPets();
@@ -53,7 +61,10 @@ const SearchParams = () => {
             breed: formData.get("breed") ?? "",
             location: formData.get("location") ?? "",
           };
-          setRequestParams(obj);
+          // Low priority state. Defer showing a loading state until everything else is done in the name of keeping the UI responsive
+          startTransition(() => {
+            setRequestParams(obj);
+          });
         }}
       >
         {adoptedPet ? (
@@ -108,9 +119,15 @@ const SearchParams = () => {
             ))}
           </select>
         </label>
-        <button className="rounded px-6 py-2 text-white hover:opacity-50 border-none bg-orange-500">
-          Submit
-        </button>
+        {isPending ? (
+          <div className="mini loading-page">
+            <h2 className="loader">🐩</h2>
+          </div>
+        ) : (
+          <button className="rounded px-6 py-2 text-white hover:opacity-50 border-none bg-orange-500">
+            Submit
+          </button>
+        )}
       </form>
       {/* <Results pets={pets} /> */}
       {renderedPets}
