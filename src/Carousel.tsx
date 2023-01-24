@@ -4,9 +4,15 @@
 // componentDidUpdate is called after your state is updated. If you're doing something like Typeahead where you're making reactive requests to an API based on user input, this would be an ideal place to do it.
 // componentWillUnmount is typically a place for cleanup. Let's say you had to write a component to integrate with jQuery (I've had to write this, multiple times), this is where you'd clean up those references (like unattaching from DOM nodes and deleting them) so you don't leak memory. This method is invoked whenever a component is about to be destroyed.
 // This class doesn't cover all the lifecycle methods but you can imagine having different timings for different capabilities of a component can be useful. For example, if you have a set of props that come in and you need to filter those props before you display them, you can use getDerivedStateFromProps. Or if you need to react to your component being removed from the DOM (like if you're subscribing to an API and you need to dispose of the subscription) you can use componentWillUnmount.
-import { Component } from "react";
+import { Component, MouseEvent } from "react";
 
-class Carousel extends Component {
+interface IProps {
+  images: string[];
+}
+
+// React.Component is a generic, in that it can accept other types. Here we're telling it what its state and props will look like. We start the interfaces off with a capital I because this signifies that this is an interface. This is a common pattern and one TSLint enforced but ESLint doesn't by deafult.
+// We could specify an IState as well as a second parameter to the Component generic but since we have the state = {} it can infer that without us doing that.
+class Carousel extends Component<IProps> {
   // Class properties, no need for constructor.
   state = {
     active: 0,
@@ -18,11 +24,17 @@ class Carousel extends Component {
   };
 
   // It's arrow function because we need the "this" in handleIndexClick to be the correct "this". An arrow function assures that because it will be the scope of where it was defined. This is common with how to deal with event handlers with class components.
-  handleIndexClick = (event) => {
-    this.setState({
-      // The data attribute comes back as a string. We want it to be a number, hence the +.
-      active: +event.target.dataset.index,
-    });
+  // We need to type the event type coming back from the DOM. We know it'll come from an HTML element, and we have to make sure it's not a generic window event. TypeScript forces a lot of this defensive programming.
+  handleIndexClick = (event: MouseEvent<HTMLElement>) => {
+    if (!(event.target instanceof HTMLElement)) {
+      return;
+    }
+    if (event.target.dataset.index) {
+      this.setState({
+        // The data attribute comes back as a string. We want it to be a number, hence the +.
+        active: +event.target.dataset.index,
+      });
+    }
   };
 
   render() {
