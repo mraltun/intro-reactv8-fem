@@ -1,3 +1,4 @@
+// type vs interface: The general advice is "use interfaces unless you need type aliases". Here we wanted to have a type alias that just allows a few different strings, something an interface can't do but a type can.
 export type Animal = "dog" | "cat" | "bird" | "reptile" | "rabbit";
 
 export interface Pet {

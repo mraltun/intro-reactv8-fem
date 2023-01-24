@@ -5,16 +5,21 @@ import AdoptedPetContext from "./AdoptedPetContext";
 import ErrorBoundary from "./ErrorBoundary";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
+import { PetAPIResponse } from "./APIResponsesTypes";
 
 const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
   const navigate = useNavigate();
-  const [, setAdoptedPet] = useContext(AdoptedPetContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setAdoptedPet] = useContext(AdoptedPetContext);
   const [showModal, setShowModal] = useState(false);
   const { id } = useParams();
+  if (!id) {
+    throw new Error("No ID!");
+  }
   // When a query needs more information to describe the data, we can use an array with a string and any objects to describe (we use details and id number array as query key). fetchPet is query function. It will run if the data haven't cached yet
-  const results = useQuery(["details", id], fetchPet);
+  const results = useQuery<PetAPIResponse>(["details", id], fetchPet);
 
   // The results object has a lot of booleans on it for isLoading, isError, isFetching, isPaused, etc. In this case react-query will make it start its first fetch (but not finish) and then continue rendering. Therefore we must handle the isLoading case (in addition to that just being a good idea)
   if (results.isLoading) {
@@ -25,7 +30,10 @@ const Details = () => {
     );
   }
 
-  const pet = results.data.pets[0];
+  const pet = results?.data?.pets[0];
+  if (!pet) {
+    throw new Error("No Pet!");
+  }
 
   return (
     <div className="details">
@@ -59,11 +67,11 @@ const Details = () => {
   );
 };
 
-// We catch the error, if no error we just render Details
-export default function DetailsErrorBoundary(props) {
+// We catch the error, if no error we just render Details. We either need to type props or get rid of them.TypeScript requires you to be explicit all the time.
+export default function DetailsErrorBoundary() {
   return (
     <ErrorBoundary>
-      <Details {...props} />
+      <Details />
     </ErrorBoundary>
   );
 }
