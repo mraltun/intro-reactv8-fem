@@ -29,6 +29,7 @@ class Carousel extends Component<IProps> {
     if (!(event.target instanceof HTMLElement)) {
       return;
     }
+
     if (event.target.dataset.index) {
       this.setState({
         // The data attribute comes back as a string. We want it to be a number, hence the +.
