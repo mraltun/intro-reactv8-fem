@@ -2,6 +2,7 @@
 import { useState, lazy, Suspense } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Pet } from "./APIResponsesTypes";
 import AdoptedPetContext from "./AdoptedPetContext";
 
 // Dynamic imports. They will not load until their routes loaded
@@ -19,7 +20,7 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  const adoptedPet = useState(null);
+const adoptedPet = useState(null as Pet | null);
 
   return (
     <div
