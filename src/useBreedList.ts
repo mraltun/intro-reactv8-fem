@@ -1,11 +1,16 @@
 // This is after react query
-import { useQuery } from "@tanstack/react-query";
+import { QueryStatus, useQuery } from "@tanstack/react-query";
+import { Animal } from "./APIResponsesTypes";
 import fetchBreedList from "./fetchBreedList";
 
-export default function useBreedList(animal) {
+export default function useBreedList(animal: Animal) {
   const results = useQuery(["breeds", animal], fetchBreedList);
 
-  return [results?.data?.breeds ?? [], results.status];
+  // The zero element will be breeds and the first element will be a status. We can't switch them etc..
+  return [results?.data?.breeds ?? [], results.status] as [
+    string[],
+    QueryStatus
+  ];
 }
 
 // We're returning two things back to the consumer of this custom hook: a list of breeds (including an empty list when it doesn't have anything in it) and an enumerated type of the status of the hook: unloaded, loading, or loaded. We won't be using the enum today but this is how I'd design it later if I wanted to throw up a nice loading graphic while breeds were being loaded.
