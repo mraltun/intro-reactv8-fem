@@ -8,12 +8,13 @@ import {
   useTransition,
 } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Animal } from "./APIResponsesTypes";
 import AdoptedPetContext from "./AdoptedPetContext";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
 import fetchSearch from "./fetchSearch";
 
-const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
+const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
   const [requestParams, setRequestParams] = useState({
@@ -21,7 +22,7 @@ const SearchParams = () => {
     animal: "",
     breed: "",
   });
-  const [animal, setAnimal] = useState("");
+  const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
   const [adoptedPet] = useContext(AdoptedPetContext);
   const [isPending, startTransition] = useTransition();
@@ -55,11 +56,13 @@ const SearchParams = () => {
         className="p-10 mb-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center"
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.target);
+          // Wwitch from e.target to e.currentTarget because while target works it's not technically guaranteed to be on a submit event even though it always is.
+          const formData = new FormData(e.currentTarget);
           const obj = {
-            animal: formData.get("animal") ?? "",
-            breed: formData.get("breed") ?? "",
-            location: formData.get("location") ?? "",
+            // Working with the DOM with TypeScript can get annoying because there's a lot of legacy pseudo types that we never had to care about. Technically formData.get gives us back a FormDataEntryValue type and not a string but when you use it like we were it implicitly called toString. Now we have to do it explictly.
+            animal: formData.get("animal")?.toString() ?? "",
+            breed: formData.get("breed")?.toString() ?? "",
+            location: formData.get("location")?.toString() ?? "",
           };
           // Low priority state. Defer showing a loading state until everything else is done in the name of keeping the UI responsive
           startTransition(() => {
@@ -90,10 +93,11 @@ const SearchParams = () => {
             className="w-60 mb-5 block"
             value={animal}
             onChange={(e) => {
-              setAnimal(e.target.value);
+              // We need to type values as they come out of the DOM. There's no way for TypeScript to understand what goes into the DOM and what comes back out so we have to be explicit as it goes in and out.
+              setAnimal(e.target.value as Animal);
             }}
             onBlur={(e) => {
-              setAnimal(e.target.value);
+              setAnimal(e.target.value as Animal);
             }}
           >
             <option />
