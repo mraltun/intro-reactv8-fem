@@ -1,6 +1,8 @@
+// We could have named the Pet component and the Pet interface differently (and this is where calling it IPet could have been useful) but it's good to see how to handle a collision like this. Just use as to import it as a different name.
+import { Pet as PetType } from "./APIResponsesTypes";
 import Pet from "./Pet";
 
-const Results = ({ pets }) => {
+const Results = ({ pets }: { pets: PetType[] }) => {
   return (
     <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
       {!pets.length ? (
