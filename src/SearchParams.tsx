@@ -19,7 +19,7 @@ const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 const SearchParams = () => {
   const [requestParams, setRequestParams] = useState({
     location: "",
-    animal: "",
+    animal: "" as Animal,
     breed: "",
   });
   const [animal, setAnimal] = useState("" as Animal);
@@ -60,7 +60,8 @@ const SearchParams = () => {
           const formData = new FormData(e.currentTarget);
           const obj = {
             // Working with the DOM with TypeScript can get annoying because there's a lot of legacy pseudo types that we never had to care about. Technically formData.get gives us back a FormDataEntryValue type and not a string but when you use it like we were it implicitly called toString. Now we have to do it explictly.
-            animal: formData.get("animal")?.toString() ?? "",
+            animal:
+              (formData.get("animal")?.toString() as Animal) ?? ("" as Animal),
             breed: formData.get("breed")?.toString() ?? "",
             location: formData.get("location")?.toString() ?? "",
           };
