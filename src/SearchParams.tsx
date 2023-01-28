@@ -8,6 +8,7 @@ import {
   useTransition,
 } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 import { Animal } from "./APIResponsesTypes";
 import AdoptedPetContext from "./AdoptedPetContext";
 import Results from "./Results";
@@ -24,7 +25,9 @@ const SearchParams = () => {
   });
   const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
-  const [adoptedPet] = useContext(AdoptedPetContext);
+  // const [adoptedPet] = useContext(AdoptedPetContext);
+  // You give useSelector a function that takes in the entire state tree and gives back just what you need. Keep in mind this is a subscription function: it will use this function to judge whether or not it needs to re-render your component. So don't just give it state => state or else it'll re-render on every state change ever which is likely not what you want.
+  const adoptedPet = useSelector((state) => state.adoptedPet.value);
   const [isPending, startTransition] = useTransition();
 
   // useEffect(() => {

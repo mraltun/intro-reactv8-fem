@@ -54,6 +54,7 @@ const Details = () => {
                 <button
                   onClick={() => {
                     // setAdoptedPet(pet);
+                    // You use dispatch functions to dispatch an action (which adopt does for us). That payload will eventually be passed to the reducer we made which will update our store. Redux handles all of the informing React of when to re-render
                     dispatch(adopt(pet));
                     navigate("/");
                   }}
