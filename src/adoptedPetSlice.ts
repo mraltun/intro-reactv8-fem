@@ -14,7 +14,8 @@ export const adoptedPetSlice = createSlice({
   },
 });
 
-// RTK takes the liberty of making action creators and the actual reducers for us
+// RTK takes the liberty of making action creators and the actual reducers for us. It basically does this:
+// function adopt(pet) { return { type: "adopt", payload: pet} }
 export const { adopt } = adoptedPetSlice.actions;
 
 export default adoptedPetSlice.reducer;
