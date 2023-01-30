@@ -11,8 +11,19 @@ export const petApi = createApi({
       // "transformResponse" is so you can extract the actual part of the response you want to keep. We just want the first pet in the pets array so we nab that
       transformResponse: (response) => response.pets[0],
     }),
+    getBreeds: builder.query({
+      query: (animal) => ({ url: "breeds", params: { animal } }),
+      transformResponse: (response) => response.breeds,
+    }),
+    search: builder.query({
+      query: ({ animal, location, breed }) => ({
+        url: "pets",
+        params: { animal, location, breed },
+      }),
+      transformResponse: (response) => response.pets,
+    }),
   }),
 });
 
 // Finally createApi will create a hook for you to use in your app so we're going to export that.
-export const { useGetPetQuery } = petApi;
+export const { useGetPetQuery, useGetBreedsQuery, useSearchQuery } = petApi;
