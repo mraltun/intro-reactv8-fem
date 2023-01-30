@@ -21,6 +21,7 @@ const Pet = (props: IProps) => {
   return (
     <Link to={`/details/${id}`} className="relative block">
       <div>
+        {/* It's advantageous to use these test IDs and decouple them from the existing CSS selector hierarchy because now it's very portable and not fragile. It's very intentional and obvious what it's supposed to do. If we moved the <img> we could just move the test ID and not have to fix more code. */}
         <img data-testid="thumbnail" src={hero} alt={name} />
       </div>
       <div className="absolute bottom-0 left-0 bg-gradient-to-tr from-white to-transparent pr-2 pt-2">
