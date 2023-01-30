@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { adopt } from "./adoptedPetSlice";
 import AdoptedPetContext from "./AdoptedPetContext";
+import { useGetPetQuery } from "./petApiService";
 import ErrorBoundary from "./ErrorBoundary";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
@@ -20,11 +21,20 @@ const Details = () => {
   if (!id) {
     throw new Error("No ID!");
   }
+  const { isLoading, data: pet } = useGetPetQuery(id);
   // When a query needs more information to describe the data, we can use an array with a string and any objects to describe (we use details and id number array as query key). fetchPet is query function. It will run if the data haven't cached yet
   const results = useQuery(["details", id], fetchPet);
 
   // The results object has a lot of booleans on it for isLoading, isError, isFetching, isPaused, etc. In this case react-query will make it start its first fetch (but not finish) and then continue rendering. Therefore we must handle the isLoading case (in addition to that just being a good idea)
   if (results.isLoading) {
+    return (
+      <div className="loading-pane">
+        <h2 className="loader">🌀</h2>
+      </div>
+    );
+  }
+
+  if (isLoading) {
     return (
       <div className="loading-pane">
         <h2 className="loader">🌀</h2>
