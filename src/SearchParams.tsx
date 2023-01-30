@@ -8,8 +8,9 @@ import {
   useTransition,
 } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Animal } from "./APIResponsesTypes";
+import { all } from "./searchParamsSlice";
 import AdoptedPetContext from "./AdoptedPetContext";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
@@ -18,17 +19,20 @@ import fetchSearch from "./fetchSearch";
 const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const [requestParams, setRequestParams] = useState({
-    location: "",
-    animal: "" as Animal,
-    breed: "",
-  });
+  // const [requestParams, setRequestParams] = useState({
+  //   location: "",
+  //   animal: "" as Animal,
+  //   breed: "",
+  // });
+  const results = useQuery(["search", searchParams], fetchSearch);
   const [animal, setAnimal] = useState("" as Animal);
   const [breeds] = useBreedList(animal);
+  const [isPending, startTransition] = useTransition();
   // const [adoptedPet] = useContext(AdoptedPetContext);
   // You give useSelector a function that takes in the entire state tree and gives back just what you need. Keep in mind this is a subscription function: it will use this function to judge whether or not it needs to re-render your component. So don't just give it state => state or else it'll re-render on every state change ever which is likely not what you want.
+  const dispatch = useDispatch();
   const adoptedPet = useSelector((state) => state.adoptedPet.value);
-  const [isPending, startTransition] = useTransition();
+  const searchParams = useSelector((state) => state.searchParams.value);
 
   // useEffect(() => {
   //   requestPets();
@@ -68,6 +72,7 @@ const SearchParams = () => {
             breed: formData.get("breed")?.toString() ?? "",
             location: formData.get("location")?.toString() ?? "",
           };
+          dispatch(all(obj));
           // Low priority state. Defer showing a loading state until everything else is done in the name of keeping the UI responsive
           startTransition(() => {
             setRequestParams(obj);
