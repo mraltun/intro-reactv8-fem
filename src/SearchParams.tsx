@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { Animal } from "./APIResponsesTypes";
 import { all } from "./searchParamsSlice";
+import { useSearchQuery } from "./petApiService";
 import AdoptedPetContext from "./AdoptedPetContext";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
@@ -56,6 +57,10 @@ const SearchParams = () => {
     () => <Results pets={deferredPets} />,
     [deferredPets]
   );
+
+  // RTK
+  const { data: pets } = useSearchQuery(searchParams);
+  pets = pets ?? [];
 
   return (
     <div className="my-0 mx-auto w-11/12">
