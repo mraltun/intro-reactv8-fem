@@ -15,7 +15,8 @@
     "build:server": "vite build --outDir ../dist/server --ssr ServerApp.jsx",
     "build": "npm run build:client && npm run build:server",
     "start": "node server.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:coverage": "vitest --coverage"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
     "@vitejs/plugin-react": "^3.0.1",
+    "@vitest/coverage-c8": "^0.28.3",
     "autoprefixer": "^10.4.12",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
